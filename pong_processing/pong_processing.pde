@@ -1,25 +1,30 @@
 class PongPaddle{
-  int score 
-  def Bounce_ball();
-  
+  int score; 
+  void bounce_ball(){
+  }
 }
 
 class PongBall{
-  int positionX
-  int positionY
-  def move()
+  int positionX;
+  int positionY;
+  void move(){
+  }
 }
 
 class PongGame{
-  player1
-  player2
+  int player1;
+  int player2;
 
-  def update //bouce of paddles
+  void update() {  //bouce of paddles
   
-  def ServeBall()
+  }
+  void serveBall() {
+    
+  }
   
-  def moveTouch() 
+  void moveTouch() {
   //if mouseClick 
+  }
 }
 
 void draw() {
