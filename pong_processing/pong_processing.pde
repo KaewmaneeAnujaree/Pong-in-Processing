@@ -53,8 +53,8 @@ class PongBall{
   }
   
   public void moveBall(){
-    x = x + speedX*2.6;
-    y = y + speedY*2.6;
+    x = x + speedX*2.8;
+    y = y + speedY*2.8;
     if ( x > width - w/2) {
       x = width /2;
       y = height /2;
@@ -81,6 +81,11 @@ class PongGame{
     text(score_left, 100, 50);
     text(score_right, width-100, 50);
   }
+  
+  public void lineBoard(){
+    rect(width/2, 0, 20, 1400);
+    pongB.moveBall();
+  }
 }
 
 PongGame pongG = new PongGame();
@@ -89,8 +94,8 @@ PongPaddle pongP = new PongPaddle();
 
 void draw() {
   background(555);
-  pongB.moveBall();
   pongG.scores();
+  pongG.lineBoard();
   pongP.paddle();
   pongP.movePaddle();
 }
