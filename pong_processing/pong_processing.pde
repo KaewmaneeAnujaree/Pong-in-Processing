@@ -1,9 +1,7 @@
 float x, y, h, w;
 float speedX,speedY;
 int score_left = 0, score_right = 0;
-int paddle_xleft, paddle_yleft, paddle_xright, paddle_yright,paddle_w, paddle_h,paddle_s;
-boolean up_left, down_left;
-boolean up_right, down_right;
+float paddle_xleft, paddle_yleft, paddle_xright, paddle_yright,paddle_w, paddle_h, paddle_s;
 
 class PongPaddle{
   public void scores() {
@@ -14,12 +12,10 @@ class PongPaddle{
   
   public void bounce_ball(){
     if ( x > width - w/2) {
-      //setup();
       speedX = -speedX;
       score_left = score_left + 1;
     }
     else if ( x < 0 + w/2) {
-      //setup();
       score_right = score_right + 1;
     }
     if ( y > height - h/2) {
@@ -28,7 +24,7 @@ class PongPaddle{
     else if ( y < 0 + h/2) {
       speedY = -speedY;
     }
-   }  
+  }  
 
   public void drawPaddle(){
     fill(89);
@@ -36,22 +32,28 @@ class PongPaddle{
     fill(89);
     rect(paddle_xright, paddle_yright, paddle_w, paddle_h);
   }
-  
-  public void movePaddle(){
-    if(up_left){
-      paddle_yleft = paddle_yleft - paddle_s;
+ 
+  public void movePaddle() {
+    if(dist(paddle_xleft, paddle_yleft, mouseX, mouseY) < paddle_w){
+      if(mousePressed){
+        paddle_yleft = mouseY;
+        strokeWeight(4);
+      }
+      else{
+        strokeWeight(2);
+      }
     }
-    if(down_left){
-      paddle_yleft = paddle_yleft + paddle_s;
-    }
-    if(up_right){
-      paddle_yright = paddle_yright - paddle_s;
-    }
-    if(down_right){
-      paddle_yright = paddle_yright + paddle_s;
+    if(dist(paddle_xright, paddle_yright, mouseX, mouseY) < paddle_w){
+      if(mousePressed){
+        paddle_yright = mouseY;
+        strokeWeight(4);
+      }
+      else{
+        strokeWeight(2);
+      }
     }
     drawPaddle();
-  }
+  } 
 }
 
 class PongBall{
@@ -76,31 +78,47 @@ class PongBall{
 }
 
 class PongGame{
-  int player1;
-  int player2;
-
   void update() {  //bouce of paddles
-  
+    if (paddle_yleft - paddle_h/2 < 0) {
+      paddle_yleft = paddle_yleft + paddle_s;
+    }
+    if (paddle_yleft + paddle_h/2 > height) {
+      paddle_yleft = paddle_yleft - paddle_s;
+    }
+    if (paddle_yright - paddle_h/2 < 0) {
+      paddle_yright = paddle_yright + paddle_s;
+    }
+    if (paddle_yright + paddle_h/2 > height) {
+      paddle_yright = paddle_yright - paddle_s;
+    }
+    serveBall();
   }
-  void serveBall() {
-    
-  }
   
-  void moveTouch() {
-  //if mouseClick 
+  public void serveBall() {
+    if (x - w/2 < paddle_xleft + paddle_w/2 && y - h/2 < paddle_yleft + paddle_h/2 && y + h/2 > paddle_yleft - paddle_h/2 ) {
+      if (speedX < 0) {
+        speedX = -speedX*1;
+      }
+    }
+    else if (x + w/2 > paddle_xright - paddle_w/2 && y - h/2 < paddle_yright + paddle_h/2 && y + h/2 > paddle_yright - paddle_h/2 ) {
+      if (speedX > 0) {
+        speedX = -speedX*1;
+      }
+    }
   }
 }
 
+PongGame pongG = new PongGame();
 PongBall pong = new PongBall();
 PongPaddle pongP = new PongPaddle();
 
 void draw() {
   background(555);
   pong.moveBall();
-  pongP.movePaddle();
   pongP.bounce_ball();
   pongP.scores();
-  
+  pongG.serveBall();
+  pongP.movePaddle();
 }
 
 void setup(){
@@ -117,9 +135,9 @@ void setup(){
   textAlign(CENTER, CENTER); 
   rectMode(CENTER); 
   
-  paddle_xleft = 30;
+  paddle_xleft = 20;
   paddle_yleft = height/2;
-  paddle_xright = width-30;
+  paddle_xright = width-20;
   paddle_yright = height/2;
   paddle_w = 30;
   paddle_h = 100;
