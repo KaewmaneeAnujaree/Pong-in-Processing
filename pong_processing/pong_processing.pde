@@ -5,18 +5,18 @@ float paddle_xleft, paddle_yleft, paddle_xright, paddle_yright,paddle_w, paddle_
 
 class PongPaddle{
   public void drawPaddle(){
-    fill(89);
-    rect(paddle_xleft, paddle_yleft, paddle_w, paddle_h);
+    //fill(89);
+    //rect(paddle_xleft, paddle_yleft, paddle_w, paddle_h);
     fill(89);
     rect(paddle_xright, paddle_yright, paddle_w, paddle_h);
   }
  
   public void movePaddle() {
-    if(dist(paddle_xleft, paddle_yleft, mouseX, mouseY) < paddle_h){
-      if(mousePressed){
-        paddle_yleft = mouseY;
-      }
-    }
+    //if(dist(paddle_xleft, paddle_yleft, mouseX, mouseY) < paddle_h){
+    //  if(mousePressed){
+    //    paddle_yleft = mouseY;
+    //  }
+    //}
     if(dist(paddle_xright, paddle_yright, mouseX, mouseY) < paddle_h){
       if(mousePressed){
         paddle_yright = mouseY;
@@ -26,12 +26,12 @@ class PongPaddle{
   }
   
   public void paddle() {
-    if (x - w/2 < paddle_xleft + paddle_w/2 && y - h/2 < paddle_yleft + paddle_h/2 && y + h/2 > paddle_yleft - paddle_h/2 ) {
-      if (speedX < 0) {
-        speedX = -speedX*1;
-      }
-    }
-    else if (x + w/2 > paddle_xright - paddle_w/2 && y - h/2 < paddle_yright + paddle_h/2 && y + h/2 > paddle_yright - paddle_h/2 ) {
+    //if (x - w/2 < paddle_xleft + paddle_w/2 && y - h/2 < paddle_yleft + paddle_h/2 && y + h/2 > paddle_yleft - paddle_h/2 ) {
+    //  if (speedX < 0) {
+    //    speedX = -speedX*1;
+    //  }
+    //}
+    if (x + w/2 > paddle_xright - paddle_w/2 && y - h/2 < paddle_yright + paddle_h/2 && y + h/2 > paddle_yright - paddle_h/2 ) {
       if (speedX > 0) {
         speedX = -speedX*1;
       }
@@ -53,34 +53,40 @@ class PongBall{
   }
   
   public void moveBall(){
-    x = x + speedX*2.8;
-    y = y + speedY*2.8;
-    if ( x > width - w/2) {
-      x = width /2;
-      y = height /2;
-      score_left = score_left + 1;
-    }
-    else if ( x < 0 + w/2) {
-      x = width /2;
-      y = height /2;
-      score_right = score_right + 1;
-    }
+    x = x + speedX*3;
+    y = y + speedY*3;
+    //if ( x > width - w/2) {
+    //  x = width /2;
+    //  y = height /2;
+    //  score_left = score_left + 1;
+    //}
+    //if ( x < 0 + w/2) {
+    //  x = width /2;
+    //  y = height /2;
+    //  score_right = score_right + 1;
+    //}
     if ( y > height - h/2) {
       speedY = -speedY;
     }  
     else if ( y < 0 + h/2) {
       speedY = -speedY;
     }
+    if ( y > height - h/2) {
+      speedX = -speedX;
+    }  
+    else if ( y < 0 + h/2) {
+      speedX = -speedX+0.4;
+    }
     drawBall();
   }
 }
 
 class PongGame{
-  public void scores() {
-    fill(255);
-    text(score_left, 100, 50);
-    text(score_right, width-100, 50);
-  }
+  //public void scores() {
+  //  fill(255);
+  //  text(score_left, 100, 50);
+  //  text(score_right, width-100, 50);
+  //}
   
   public void lineBoard(){
     rect(width/2, 0, 20, 1400);
@@ -94,7 +100,7 @@ PongPaddle pongP = new PongPaddle();
 
 void draw() {
   background(555);
-  pongG.scores();
+  //pongG.scores();
   pongG.lineBoard();
   pongP.paddle();
   pongP.movePaddle();
